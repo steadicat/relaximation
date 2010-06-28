@@ -1,6 +1,8 @@
 var net = require('net'),
     sys = require('sys'),
-    url = require('url');
+    url = require('url'),
+    base64 = require("./base64");
+
 
 var CRLF = "\r\n";
 
@@ -176,14 +178,19 @@ function createPool (size, port, hostname, method, pathname, headers, body, stat
   return pool
 }
 
+function parseUrl(uri) {
+  if (typeof uri === 'function') uri = uri();
+  return url.parse(uri);
+}
+
 function createWritePool (size, uri, doc, statusCallback, bodyCallback) {
-  if (typeof uri === 'string') {
-    var u = url.parse(uri);
-    uri = u.pathname;
-  } else {
-    var u = url.parse(uri());
-  }
-  var p = createPool(size, u.port, u.hostname, 'POST', uri, {'content-type':'application/json'}, doc, function (status) {
+  var u = parseUrl(uri);
+  uri = u.pathname;
+
+  var headers = {'content-type':'application/json'};
+  if (u.auth) headers.authorization = "Basic " + base64.encode(u.auth);
+
+  var p = createPool(size, u.port, u.hostname, 'POST', uri, headers, doc, function (status) {
     if (statusCallback) {
       statusCallback(status);
     }
@@ -193,14 +200,13 @@ function createWritePool (size, uri, doc, statusCallback, bodyCallback) {
 }
 
 function createReadPool (size, uri, statusCallback, bodyCallback) {
-  if (typeof uri === 'string') {
-    var u = url.parse(uri);
-    uri = u.pathname;
-  } else {
-    var u = url.parse(uri());
-  }
-  
-  var p = createPool(size, u.port, u.hostname, 'GET', uri, {'content-type':'application/json'}, null, function (status) {
+  var u = parseUrl(uri);
+  uri = u.pathname;
+
+  var headers = {'content-type':'application/json'};
+  if (u.auth) headers.authorization = "Basic " + base64.encode(u.auth);
+
+  var p = createPool(size, u.port, u.hostname, 'GET', uri, headers, null, function (status) {
     if (statusCallback) {
       statusCallback(status);
     }

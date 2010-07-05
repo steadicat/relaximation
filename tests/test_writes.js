@@ -9,7 +9,7 @@ var events = require('events');
 var opts = new optionparser.OptionParser();
 opts.addOption('-c', '--clients', "number", "clients", 100, "Number of concurrent clients per process.");
 opts.addOption('-u', '--url', "string", "url", "http://localhost:5984", "CouchDB url to run tests against.");
-opts.addOption('-d', '--doc', "string", "doc", "small", "small or large doc.");
+opts.addOption('-d', '--doc', "string", "doc", "medium", "small, medium or large doc. Default is medium.");
 opts.addOption('-t', '--duration', "number", "duration", 60, "Duration of the run in seconds.")
 opts.addOption('-i', '--poll', "number", "poll", 1, "Polling interval in seconds.")
 opts.addOption('-p', '--graph', "string", "graph", "http://mikeal.couchone.com/graphs", "CouchDB to persist results in.")

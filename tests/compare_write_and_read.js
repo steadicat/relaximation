@@ -19,7 +19,7 @@ opts.addOption('-v', '--url2', "string", "url2", "http://localhost:5985",
                 "CouchDB url to run tests against. Default is http://localhost:5985");
 opts.addOption('-1', '--name1', "string", "name1", null, "Name of first comparative. Required.");
 opts.addOption('-2', '--name2', "string", "name2", null, "Name of first comparative. Required.");
-opts.addOption('-d', '--doc', "string", "doc", "small", "small or large doc. Default is small.");
+opts.addOption('-d', '--doc', "string", "doc", "medium", "small, medium or large doc. Default is medium.");
 opts.addOption('-t', '--duration', "number", "duration", 60, "Duration of the run in seconds. Default is 60.")
 opts.addOption('-i', '--poll', "number", "poll", 1, "Polling interval in seconds. Default is 1.")
 opts.addOption('-p', '--graph', "string", "graph", "http://mikeal.couchone.com/graphs", 
